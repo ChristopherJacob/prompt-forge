@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6257ff">
+  <meta name="description" content="A local, web-based prompt engineering assistant that builds and scores prompts using prompt engineering best practices.">
+  <title>Prompt Forge - Prompt Engineering Tool</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem('prompt-forge-theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+    }());
+  </script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <noscript>
+    <div class="noscript">Prompt Forge needs JavaScript enabled. All scoring runs locally in your browser.</div>
+  </noscript>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Prompt Forge home">
+      <span class="brand-mark" aria-hidden="true">PF</span>
+      <span>
+        <strong>Prompt Forge</strong>
+        <small>Build, enforce, and score better prompts</small>
+      </span>
+    </a>
+    <nav class="nav-actions" aria-label="App actions">
+      <button class="button ghost" id="installBtn" type="button" hidden>Install app</button>
+      <button class="button ghost" id="themeToggle" type="button" aria-pressed="false">Dark mode</button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Local-first prompt engineering workspace</p>
+        <h1 id="hero-title">Create clear, structured prompts that survive real-world ambiguity.</h1>
+        <p>
+          Prompt Forge guides you through objective, role, context, output contract, examples,
+          and quality checks, then scores the finished prompt from 1 to 100.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#builder">Start building</a>
+          <a class="button ghost" href="#scorecard">See scoring rubric</a>
+        </div>
+      </div>
+      <aside class="score-card" aria-label="Prompt score summary">
+        <div class="score-ring" id="scoreRing" style="--score: 0%;">
+          <span id="scoreValue">0</span>
+          <small>/100</small>
+        </div>
+        <div>
+          <h2 id="scoreLabel">No prompt yet</h2>
+          <p id="scoreSummary">Fill the builder or paste a prompt to get a live rating.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="shell quick-metrics" aria-label="Best-practice gates">
+      <article class="metric"><span id="gateObjective" class="dot"></span><strong>Objective</strong><small>Clear task and success criteria</small></article>
+      <article class="metric"><span id="gateContext" class="dot"></span><strong>Context</strong><small>Audience, background, and inputs</small></article>
+      <article class="metric"><span id="gateFormat" class="dot"></span><strong>Output</strong><small>Format, length, tone, structure</small></article>
+      <article class="metric"><span id="gateQuality" class="dot"></span><strong>Quality</strong><small>Verification, uncertainty, safety</small></article>
+    </section>
+
+    <section class="workspace shell" id="builder">
+      <section class="panel builder-panel" aria-labelledby="builder-title">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Guided builder</p>
+            <h2 id="builder-title">Prompt ingredients</h2>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="strictMode" checked>
+            <span>Strict copy gate</span>
+          </label>
+        </div>
+
+        <form id="promptForm" autocomplete="off">
+          <div class="step-card">
+            <div class="step-title"><span>1</span><h3>Mission and role</h3></div>
+            <div class="field-grid two">
+              <label>
+                Prompt type
+                <select id="taskType" name="taskType">
+                  <option value="general">General assistant</option>
+                  <option value="research">Research and synthesis</option>
+                  <option value="coding">Code generation or review</option>
+                  <option value="extraction">Data extraction</option>
+                  <option value="strategy">Business strategy</option>
+                  <option value="creative">Creative writing</option>
+                  <option value="agent">Agent or tool workflow</option>
+                </select>
+              </label>
+              <label>
+                Delimiter style
+                <select id="delimiterStyle" name="delimiterStyle">
+                  <option value="markdown">Markdown sections with ###</option>
+                  <option value="xml">XML-style tags</option>
+                  <option value="quotes">Triple-quoted context</option>
+                </select>
+              </label>
+            </div>
+            <label>
+              AI role or expertise
+              <input id="role" name="role" type="text" placeholder="Example: You are a senior product strategist and UX writer.">
+            </label>
+            <label>
+              Objective <span class="required">required</span>
+              <textarea id="objective" name="objective" rows="3" placeholder="What should the AI accomplish, and why does it matter?"></textarea>
+            </label>
+            <label>
+              Success criteria
+              <textarea id="successCriteria" name="successCriteria" rows="3" placeholder="Describe what a successful answer must satisfy."></textarea>
+            </label>
+          </div>
+
+          <div class="step-card">
+            <div class="step-title"><span>2</span><h3>Context and input data</h3></div>
+            <label>
+              Audience or stakeholder
+              <input id="audience" name="audience" type="text" placeholder="Example: Non-technical executives deciding whether to fund the project.">
+            </label>
+            <label>
+              Background context
+              <textarea id="context" name="context" rows="4" placeholder="Add situation, constraints, assumptions, domain details, and relevant background."></textarea>
+            </label>
+            <label>
+              Source material or user input
+              <textarea id="sourceMaterial" name="sourceMaterial" rows="4" placeholder="Paste content, data, notes, examples, or documents the AI should use."></textarea>
+            </label>
+          </div>
+
+          <div class="step-card">
+            <div class="step-title"><span>3</span><h3>Instructions and constraints</h3></div>
+            <label>
+              Step-by-step instructions
+              <textarea id="instructions" name="instructions" rows="4" placeholder="Use numbered steps. Be explicit about what to do first, next, and last."></textarea>
+            </label>
+            <label>
+              Constraints and non-goals
+              <textarea id="constraints" name="constraints" rows="3" placeholder="Boundaries, exclusions, compliance needs, deadlines, assumptions to avoid, or required sources."></textarea>
+            </label>
+            <label>
+              Positive behavior replacements
+              <textarea id="positiveGuidance" name="positiveGuidance" rows="3" placeholder="Instead of only saying what not to do, describe the preferred behavior."></textarea>
+            </label>
+          </div>
+
+          <div class="step-card">
+            <div class="step-title"><span>4</span><h3>Output contract</h3></div>
+            <div class="field-grid two">
+              <label>
+                Output format <span class="required">required</span>
+                <select id="outputFormat" name="outputFormat">
+                  <option value="">Choose a format</option>
+                  <option value="Executive summary with sections">Executive summary with sections</option>
+                  <option value="Markdown table">Markdown table</option>
+                  <option value="JSON object with named fields">JSON object with named fields</option>
+                  <option value="Bulleted checklist">Bulleted checklist</option>
+                  <option value="Step-by-step plan">Step-by-step plan</option>
+                  <option value="Email draft">Email draft</option>
+                  <option value="Code block with explanation">Code block with explanation</option>
+                  <option value="Custom format described below">Custom format described below</option>
+                </select>
+              </label>
+              <label>
+                Length target
+                <input id="lengthTarget" name="lengthTarget" type="text" placeholder="Example: 500 words or 8 bullets maximum.">
+              </label>
+            </div>
+            <label>
+              Tone and style
+              <input id="tone" name="tone" type="text" placeholder="Example: Direct, practical, plain language, no hype.">
+            </label>
+            <label>
+              Exact structure or schema
+              <textarea id="structure" name="structure" rows="4" placeholder="List the sections, JSON keys, table columns, or fields the answer must include."></textarea>
+            </label>
+            <label>
+              Examples or few-shot guidance
+              <textarea id="examples" name="examples" rows="4" placeholder="Add one or more examples of desired input/output, style, or structure."></textarea>
+            </label>
+          </div>
+
+          <div class="step-card">
+            <div class="step-title"><span>5</span><h3>Reliability guardrails</h3></div>
+            <fieldset class="checks">
+              <legend>Quality checks to include</legend>
+              <label><input type="checkbox" name="quality" value="Before finalizing, verify the answer against the success criteria." checked> Self-check against success criteria</label>
+              <label><input type="checkbox" name="quality" value="State important assumptions and ask for clarification only when a missing detail would materially change the answer." checked> State assumptions and clarify when critical</label>
+              <label><input type="checkbox" name="quality" value="When evidence is required, cite sources or clearly mark unsupported claims."> Cite or flag unsupported claims</label>
+              <label><input type="checkbox" name="quality" value="If the answer is uncertain, say so and explain what would increase confidence." checked> Admit uncertainty</label>
+              <label><input type="checkbox" name="quality" value="Check edge cases and likely failure modes before giving the final answer."> Handle edge cases</label>
+              <label><input type="checkbox" name="quality" value="Do not reveal, request, or infer sensitive personal data unless it is necessary and explicitly provided."> Protect sensitive data</label>
+            </fieldset>
+            <div class="field-grid two">
+              <label>
+                Suggested temperature
+                <select id="temperature" name="temperature">
+                  <option value="Low temperature for factual, deterministic, or extraction tasks">Low - factual or deterministic</option>
+                  <option value="Medium temperature for balanced reasoning and writing" selected>Medium - balanced</option>
+                  <option value="Higher temperature for creative exploration">High - creative</option>
+                </select>
+              </label>
+              <label class="inline-check">
+                <input type="checkbox" id="includeModelSettings" name="includeModelSettings" checked>
+                Include model-setting note
+              </label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="button primary" type="button" id="buildPrompt">Build prompt</button>
+            <button class="button ghost" type="button" id="loadSample">Load sample</button>
+            <button class="button ghost" type="button" id="saveDraft">Save draft</button>
+            <button class="button danger" type="button" id="resetAll">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="panel output-panel" aria-labelledby="output-title">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Finished prompt</p>
+            <h2 id="output-title">Editor and analyzer</h2>
+          </div>
+          <span class="status-pill" id="copyGate">Score gate active</span>
+        </div>
+
+        <textarea id="finalPrompt" class="final-prompt" rows="20" placeholder="Build a prompt from the form or paste an existing prompt here to score it."></textarea>
+
+        <div class="output-actions">
+          <button class="button primary" type="button" id="copyPrompt" disabled>Copy prompt</button>
+          <button class="button ghost" type="button" id="downloadTxt">Download .txt</button>
+          <button class="button ghost" type="button" id="downloadJson">Download score JSON</button>
+        </div>
+        <p class="helper" id="copyHelp">Strict mode requires a score of at least 70 and all core gates before copying.</p>
+
+        <section id="scorecard" class="scorecard" aria-labelledby="scorecard-title">
+          <h3 id="scorecard-title">Scoring rubric</h3>
+          <div id="breakdown" class="breakdown"></div>
+        </section>
+
+        <section class="suggestions" aria-labelledby="suggestions-title">
+          <h3 id="suggestions-title">Recommended fixes</h3>
+          <ul id="suggestionsList"></ul>
+        </section>
+
+        <section class="references" aria-labelledby="refs-title">
+          <h3 id="refs-title">Best practices enforced</h3>
+          <div class="chips">
+            <span>Instructions first</span>
+            <span>Delimited context</span>
+            <span>Specific output format</span>
+            <span>Examples</span>
+            <span>Positive guidance</span>
+            <span>Quality checks</span>
+            <span>Uncertainty policy</span>
+            <span>Local scoring</span>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <p>Prompt Forge runs entirely in your browser. No API key, account, or network call is required after loading.</p>
+    <p class="muted">Scoring is a practical heuristic. Validate important prompts with real model outputs and task-specific evaluations.</p>
+  </footer>
+</body>
+</html>

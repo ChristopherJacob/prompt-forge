@@ -1,0 +1,18 @@
+{
+  "name": "Prompt Forge",
+  "short_name": "PromptForge",
+  "description": "A local prompt engineering tool that builds and scores AI prompts.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#6257ff",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "prompt-forge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local-first prompt engineering web app that builds and scores AI prompts.",
+  "scripts": {
+    "start": "python3 -m http.server 8080"
+  },
+  "keywords": [
+    "prompt-engineering",
+    "ai",
+    "pwa",
+    "static"
+  ],
+  "license": "MIT"
+}

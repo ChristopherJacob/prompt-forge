@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Prompt Forge icon">
+  <defs>
+    <linearGradient id="g" x1="72" x2="440" y1="72" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6257ff"/>
+      <stop offset="1" stop-color="#14b87a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#g)"/>
+  <path fill="#fff" d="M143 156c0-16.6 13.4-30 30-30h166c16.6 0 30 13.4 30 30v200c0 16.6-13.4 30-30 30H173c-16.6 0-30-13.4-30-30V156Zm52 31v39h84v-39h-84Zm0 79v31h122v-31H195Zm0 70v31h70v-31h-70Zm116 0v31h43v-31h-43Z" opacity=".96"/>
+  <path fill="#fff" d="M341 117l16 34 37 5-27 26 6 37-32-17-33 17 7-37-27-26 37-5 16-34Z" opacity=".92"/>
+</svg>
