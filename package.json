@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "A local-first prompt engineering web app that builds and scores AI prompts.",
-  "type": "module",
   "scripts": {
     "start": "python3 -m http.server 8080",
     "lint": "eslint --no-error-on-unmatched-pattern app.js scoring.js sw.js scripts/",
