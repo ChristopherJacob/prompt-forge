@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "description": "A local-first prompt engineering web app that builds and scores AI prompts.",
+  "type": "module",
   "scripts": {
-    "start": "python3 -m http.server 8080"
+    "start": "python3 -m http.server 8080",
+    "lint": "eslint --no-error-on-unmatched-pattern app.js scoring.js sw.js scripts/",
+    "format": "prettier --write app.js scoring.js sw.js index.html styles.css",
+    "test": "jest --testPathPattern=tests/",
+    "release": "node scripts/release.js"
   },
   "keywords": [
     "prompt-engineering",
@@ -12,5 +17,11 @@
     "pwa",
     "static"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.4"
+  }
 }

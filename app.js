@@ -483,7 +483,7 @@
     try {
       await navigator.clipboard.writeText(text);
       showToast('Prompt copied.');
-    } catch (error) {
+    } catch (_error) {
       var promptEl = $(selectors.finalPrompt);
       promptEl.focus();
       promptEl.select();
