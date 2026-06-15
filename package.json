@@ -7,7 +7,7 @@
     "start": "python3 -m http.server 8080",
     "lint": "eslint --no-error-on-unmatched-pattern app.js scoring.js sw.js scripts/",
     "format": "prettier --write app.js scoring.js sw.js index.html styles.css",
-    "test": "jest --testPathPattern=tests/",
+    "test": "jest --testPathPatterns=tests/",
     "release": "node scripts/release.js"
   },
   "keywords": [
@@ -21,6 +21,10 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
+    "jest": "^30.4.2",
     "prettier": "^3.8.4"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

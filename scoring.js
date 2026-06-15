@@ -142,6 +142,9 @@
       quality: Boolean(signals.verification && (signals.uncertainty || signals.evidence || signals.safety))
     };
 
+    if (wordCount > SCORING_CONFIG.wordLimits.max) suggestions.push('This prompt is long. Move reusable background to a separate knowledge base or trim duplicated instructions.');
+    if (wordCount > 0 && wordCount < SCORING_CONFIG.wordLimits.min) suggestions.push('This prompt is short. Add context, success criteria, output format, and quality checks.');
+    if (vagueHits.length > 2) suggestions.push('Replace vague terms like ' + vagueHits.slice(0, 4).join(', ') + ' with measurable requirements.');
     if (!signals.role) suggestions.push('Add an AI role or expertise statement, such as "You are a senior analyst...".');
     if (!signals.objective) suggestions.push('State the primary objective near the top of the prompt.');
     if (!signals.success) suggestions.push('Define success criteria so the model has a target to optimize for.');
@@ -155,9 +158,6 @@
     if (!signals.verification) suggestions.push('Add a self-check instruction before the final answer.');
     if (!signals.uncertainty && !signals.evidence) suggestions.push('Add an uncertainty policy, citation requirement, or "do not guess" instruction.');
     if (!signals.positiveGuidance) suggestions.push('Pair negative rules with preferred behavior, for example "Instead, do X".');
-    if (vagueHits.length > 2) suggestions.push('Replace vague terms like ' + vagueHits.slice(0, 4).join(', ') + ' with measurable requirements.');
-    if (wordCount > SCORING_CONFIG.wordLimits.max) suggestions.push('This prompt is long. Move reusable background to a separate knowledge base or trim duplicated instructions.');
-    if (wordCount > 0 && wordCount < SCORING_CONFIG.wordLimits.min) suggestions.push('This prompt is short. Add context, success criteria, output format, and quality checks.');
     if (!signals.safety) suggestions.push('For business or user-data tasks, add privacy, sensitive-data, or source-of-truth boundaries.');
 
     return {
