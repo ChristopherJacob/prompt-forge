@@ -1,4 +1,5 @@
-const CACHE_NAME = 'prompt-forge-v1';
+// Run `npm run release` after bumping package.json version to keep this in sync.
+const CACHE_NAME = 'prompt-forge-v1.0.0';
 const ASSETS = [
   './',
   './index.html',

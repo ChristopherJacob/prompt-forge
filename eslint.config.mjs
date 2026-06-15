@@ -45,5 +45,20 @@ export default [
       'prefer-const': 'off',
       'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }]
     }
+  },
+  // Node.js scripts
+  {
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      globals: {
+        require: 'readonly',
+        module: 'readonly',
+        exports: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly'
+      }
+    }
   }
 ];
