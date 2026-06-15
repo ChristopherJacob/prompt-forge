@@ -7,7 +7,7 @@ const ASSETS = [
   './scoring.js',
   './app.js',
   './manifest.json',
-  './assets/icon.svg'
+  './assets/favicon.png'
 ];
 
 self.addEventListener('install', event => {
