@@ -115,11 +115,11 @@
             </label>
             <label>
               Objective <span class="required">required</span>
-              <textarea id="objective" name="objective" rows="3" placeholder="What should the AI accomplish, and why does it matter?"></textarea>
+              <textarea id="objective" name="objective" rows="3" maxlength="4000" placeholder="What should the AI accomplish, and why does it matter?"></textarea>
             </label>
             <label>
               Success criteria
-              <textarea id="successCriteria" name="successCriteria" rows="3" placeholder="Describe what a successful answer must satisfy."></textarea>
+              <textarea id="successCriteria" name="successCriteria" rows="3" maxlength="4000" placeholder="Describe what a successful answer must satisfy."></textarea>
             </label>
           </div>
 
@@ -131,11 +131,11 @@
             </label>
             <label>
               Background context
-              <textarea id="context" name="context" rows="4" placeholder="Add situation, constraints, assumptions, domain details, and relevant background."></textarea>
+              <textarea id="context" name="context" rows="4" maxlength="4000" placeholder="Add situation, constraints, assumptions, domain details, and relevant background."></textarea>
             </label>
             <label>
               Source material or user input
-              <textarea id="sourceMaterial" name="sourceMaterial" rows="4" placeholder="Paste content, data, notes, examples, or documents the AI should use."></textarea>
+              <textarea id="sourceMaterial" name="sourceMaterial" rows="4" maxlength="8000" placeholder="Paste content, data, notes, examples, or documents the AI should use."></textarea>
             </label>
           </div>
 
@@ -143,15 +143,15 @@
             <div class="step-title"><span>3</span><h3>Instructions and constraints</h3></div>
             <label>
               Step-by-step instructions
-              <textarea id="instructions" name="instructions" rows="4" placeholder="Use numbered steps. Be explicit about what to do first, next, and last."></textarea>
+              <textarea id="instructions" name="instructions" rows="4" maxlength="4000" placeholder="Use numbered steps. Be explicit about what to do first, next, and last."></textarea>
             </label>
             <label>
               Constraints and non-goals
-              <textarea id="constraints" name="constraints" rows="3" placeholder="Boundaries, exclusions, compliance needs, deadlines, assumptions to avoid, or required sources."></textarea>
+              <textarea id="constraints" name="constraints" rows="3" maxlength="2000" placeholder="Boundaries, exclusions, compliance needs, deadlines, assumptions to avoid, or required sources."></textarea>
             </label>
             <label>
               Positive behavior replacements
-              <textarea id="positiveGuidance" name="positiveGuidance" rows="3" placeholder="Instead of only saying what not to do, describe the preferred behavior."></textarea>
+              <textarea id="positiveGuidance" name="positiveGuidance" rows="3" maxlength="2000" placeholder="Instead of only saying what not to do, describe the preferred behavior."></textarea>
             </label>
           </div>
 
@@ -183,11 +183,11 @@
             </label>
             <label>
               Exact structure or schema
-              <textarea id="structure" name="structure" rows="4" placeholder="List the sections, JSON keys, table columns, or fields the answer must include."></textarea>
+              <textarea id="structure" name="structure" rows="4" maxlength="2000" placeholder="List the sections, JSON keys, table columns, or fields the answer must include."></textarea>
             </label>
             <label>
               Examples or few-shot guidance
-              <textarea id="examples" name="examples" rows="4" placeholder="Add one or more examples of desired input/output, style, or structure."></textarea>
+              <textarea id="examples" name="examples" rows="4" maxlength="4000" placeholder="Add one or more examples of desired input/output, style, or structure."></textarea>
             </label>
           </div>
 

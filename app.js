@@ -253,8 +253,17 @@
     var data = getBuilderData();
     data.finalPrompt = $(selectors.finalPrompt).value;
     data.qualityChecked = all('input[name="quality"]').map(function (input) { return input.checked; });
-    localStorage.setItem('prompt-forge-draft', JSON.stringify(data));
-    if (showMessage) showToast('Draft saved locally in this browser.');
+    var serialized = JSON.stringify(data);
+    if (serialized.length > 400000) {
+      showToast('Draft is too large to save. Trim the source material or prompt text.');
+      return;
+    }
+    try {
+      localStorage.setItem('prompt-forge-draft', serialized);
+      if (showMessage) showToast('Draft saved locally in this browser.');
+    } catch (_e) {
+      showToast('Could not save draft — browser storage may be full.');
+    }
   }
 
   function restoreDraft() {
