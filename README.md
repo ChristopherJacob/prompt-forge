@@ -52,18 +52,52 @@ This runs the same Python local server command through `package.json`.
 
 ## Scoring model
 
-The score is local and heuristic. It rewards prompts that include:
+The score is a local, heuristic rating from 0–100. It is computed by `analyzePrompt()` in `scoring.js`.
 
-1. Role, objective, and success criteria
-2. Context, audience, source material, and delimiters
-3. Specific instructions, constraints, and positive guidance
-4. Output format, length, tone, and schema
-5. Examples or few-shot patterns
-6. Verification, evidence, uncertainty handling, edge cases, and safety boundaries
-7. Clear section structure
-8. Precise wording with minimal vague language
+### How it works
 
-The score is not a guarantee of model quality. For important workflows, test prompts against real examples and use task-specific evaluations.
+The analyzer scans the prompt text for 20+ signals using regex pattern-matching against keywords, punctuation, and structural markers. Signals are grouped into 8 weighted categories:
+
+| Category | Max | Signals and points |
+|---|---|---|
+| Role, objective, success | 15 | Role (4) + Objective (6) + Success criteria (5) |
+| Context and inputs | 15 | Context (6) + Audience (4) + Delimiters (5) |
+| Specific instructions | 15 | Instructions (7) + Constraints (5) + Positive guidance (3) |
+| Output contract | 15 | Format (6) + Length (3) + Tone (3) + Structure (3) |
+| Examples | 10 | Single example (7) + Multiple examples (3) |
+| Reliability and safety | 15 | Verification (4) + Evidence (3) + Uncertainty (3) + Edge cases (2) + Safety (3) |
+| Prompt structure | 10 | Delimiters (5) + Clear opening (3) + 4+ sections (2) |
+| Clarity and precision | 5 | Min 60 words (2) + Under 1400 words (1) + ≤2 vague terms (2) |
+
+### Score labels
+
+| Score | Label |
+|---|---|
+| 90–100 | Excellent prompt |
+| 80–89 | Strong prompt |
+| 70–79 | Good prompt |
+| 50–69 | Needs detail |
+| 1–49 | Needs work |
+| 0 | No prompt yet |
+
+### Best-practice gates
+
+Four gates must all pass before a prompt is "copy-ready" in strict mode:
+
+| Gate | Condition |
+|---|---|
+| Objective | Objective signal AND success criteria signal |
+| Context | Context signal AND delimiter signal |
+| Output | Output format signal AND (length OR tone OR structure) |
+| Quality | Verification signal AND (uncertainty OR evidence OR safety) |
+
+### Tuning
+
+All scoring weights, thresholds, vague-term list, and word limits live in `SCORING_CONFIG` at the top of `scoring.js`. Change values there — no other file needs to change.
+
+### Limitations
+
+The score is a practical heuristic. Regex-based signal detection can produce false positives (a word that matches a pattern but carries a different meaning). For important workflows, always validate prompts with real model outputs.
 
 ## Reference basis
 
