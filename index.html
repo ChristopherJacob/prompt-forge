@@ -52,7 +52,7 @@
           <a class="button ghost" href="#scorecard">See scoring rubric</a>
         </div>
       </div>
-      <aside class="score-card" aria-label="Prompt score summary">
+      <aside class="score-card" aria-label="Prompt score summary" aria-live="polite" aria-atomic="true">
         <div class="score-ring" id="scoreRing" style="--score: 0%;">
           <span id="scoreValue">0</span>
           <small>/100</small>
@@ -252,7 +252,7 @@
 
         <section class="suggestions" aria-labelledby="suggestions-title">
           <h3 id="suggestions-title">Recommended fixes</h3>
-          <ul id="suggestionsList"></ul>
+          <ul id="suggestionsList" aria-live="polite" aria-atomic="true"></ul>
         </section>
 
         <section class="references" aria-labelledby="refs-title">
