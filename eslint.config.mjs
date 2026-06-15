@@ -31,6 +31,8 @@ export default [
         self: 'readonly',
         caches: 'readonly',
         clients: 'readonly',
+        // Node.js CJS globals (used in UMD guard in scoring.js)
+        module: 'readonly',
         // Future scoring.js exports used in app.js
         analyzePrompt: 'readonly',
         labelForScore: 'readonly',
