@@ -1,6 +1,6 @@
 {
   "name": "prompt-forge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "A local-first prompt engineering web app that builds and scores AI prompts.",
   "scripts": {

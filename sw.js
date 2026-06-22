@@ -1,5 +1,5 @@
 // Run `npm run release` after bumping package.json version to keep this in sync.
-const CACHE_NAME = 'prompt-forge-v1.0.0';
+const CACHE_NAME = 'prompt-forge-v1.0.1';
 const ASSETS = [
   './',
   './index.html',
@@ -7,7 +7,9 @@ const ASSETS = [
   './scoring.js',
   './app.js',
   './manifest.json',
-  './assets/favicon.png'
+  './assets/favicon.png',
+  './assets/icon-192.png',
+  './assets/icon-512.png'
 ];
 
 self.addEventListener('install', event => {
